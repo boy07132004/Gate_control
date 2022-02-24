@@ -30,6 +30,7 @@ def device_search():
     
     for device in evdev.util.list_devices():
         dev = evdev.InputDevice(device)
+        
         if dev.phys.split('/')[0][-1] == '3':
             entranceHID = dev
         elif dev.phys.split('/')[0][-1] == '4':
@@ -45,8 +46,7 @@ def send_hid_code(direction, keys):
     userHid = "".join(key[-1] for key in keys)
     parameter = {'user_hid': userHid, 'work_status': direction}
     res = requests.get(URL, params=parameter)
-    
-    if (res.status_code == 200) and direction == "in":
+    if (res.status_code == 200) and direction == "in": door_control(ENTRANCEPIN)
 
     
 async def monitor(device, direction):
